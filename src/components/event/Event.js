@@ -4,7 +4,6 @@ import { selectEvent } from '../../store/event/eventSlice';
 import EventItem from './EventItem';
 import { PlusOutlined } from '@ant-design/icons';
 import { Row } from 'antd';
-import IMAGE from '../../assets/img/_5159f6f9-0f60-42a4-a3e7-b90e944c4a45.jpg';
 import { useNavigate } from 'react-router-dom';
 
 export default function Event() {
