@@ -1,24 +1,39 @@
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { initAuthListener, selectLoading } from './store/auth/authSlice';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import AuthenticationPage from './pages/Authentication';
+import Home from './pages/Home';
+import CreateEvent from './pages/CreateEvent';
 import './App.css';
+import Navigation from './components/navigation/Navigation';
+import EventDetails from './components/event/EventDetails';
 
 function App() {
+
+  const loading = useSelector(selectLoading);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const unsubscribe = initAuthListener(dispatch);
+    return unsubscribe;
+  },[]);
+
+
+  if(loading){
+    return <h1>Loading...</h1>;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navigation />
+      <Routes>
+        <Route path="/authentication" element={<AuthenticationPage />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/create-event" element={<CreateEvent />} />
+        <Route path="/event/:id" element={<EventDetails />} />
+      </Routes>
+    </Router>
   );
 }
 
